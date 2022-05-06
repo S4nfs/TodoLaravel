@@ -4,16 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Todo;
+use App\Models\User;
 use Faker\Provider\Lorem;
 use Nette\Utils\Validators;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\TodoCreateRequest;
+use App\Http\Controllers\Auth;
 
 class TodoController extends Controller
 {
     function index()
     {
-        $mytodo = Todo::orderby('completed')->get();            //ordered by completed 0,1
+        $mytodo = auth()->user()->todos()->orderBy('completed')->get(); //with has many relationship ordered by completed 0,1
+        // $mytodo = Todo::orderby('completed')->get();            
         return view ('todos.index', ['mytodos' => $mytodo]);
     }
 
@@ -35,6 +38,11 @@ class TodoController extends Controller
         //     return redirect()->back()->withErrors($validator)->withInput();
         // }
 
+        // Todo::create($req->all());
+
+        //create eloquent relationship with todo and user table
+        $userId = auth()->id();
+        $req['user_id'] = $userId;
         Todo::create($req->all());
         return redirect()->back()->with('message', "You created something");
     }
