@@ -41,4 +41,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    //create eloquent relationship with todo and user table
+    public function todos()
+    {
+        return $this->hasMany(Todo::class);
+    }
 }
