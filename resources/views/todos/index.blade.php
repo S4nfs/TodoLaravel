@@ -2,21 +2,23 @@
 @section('content')
     <div class="flex justify-center">
         <div class="text-center pt-10">
-            <h1 class="text-2xl">All your To-DOs</h1>
+            <h1 class="text-4xl">All your To-DOs</h1>
             <x-Alert />
             <a href="/todos/create"><button
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mt-5"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mt-5 z-10"
                     type="submit">Create new</button></a>
         </div>
     </div>
-    <div class="h-screen flex items-center justify-center bg-gray-100">
+    <div class="flex justify-center pt-20">
         <div class="grid grid-cols-12 max-w-5xl gap-12">
-            @foreach ($mytodos as $items)
+            @forelse ($mytodos as $items)
                 <!-- Card 1 -->
                 <div class="grid col-span-4 relative">
                     <!-- delete icon -->
-                    <div class="absolute top-0 right-0"><i class="bi bi-x" style="color:red;" onclick="document.getElementById('form-delete-{{$items->id}}').submit()"></i>
-                        <form action="{{'/todos/'.$items->id.'/delete'}}" method="post" style="display: none" id="{{'form-delete-'.$items->id}}">
+                    <div class="absolute top-0 right-0"><i class="bi bi-x" style="color:red;"
+                            onclick="document.getElementById('form-delete-{{ $items->id }}').submit()"></i>
+                        <form action="{{ '/todos/' . $items->id . '/delete' }}" method="post" style="display: none"
+                            id="{{ 'form-delete-' . $items->id }}">
                             @csrf
                             @method('delete')
                             <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full"
@@ -59,7 +61,23 @@
                         </form>
                     @endif
                 </div>
-            @endforeach
+            @empty
+                <div class="grid col-span-4 relative text-center">
+                    <p>No todos yet</p>
+                </div>
+            @endforelse
+        </div>
+    </div>
+
+    {{-- small note in footer : --}}
+    <div class="flex justify-center">
+        <div class="text-center pt-20">
+            <p class="text-xs">
+                <span class="text-gray-500">Note:</span>
+                <span class="text-gray-700">
+                    Hit the blue strip to mark the task as completed.
+                </span>
+            </p>
         </div>
     </div>
 @endsection
