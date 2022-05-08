@@ -1,7 +1,7 @@
 @extends('todos/layout')
 @section('content')
-    <div class="text-center py-10 flex justify-center items-center h-screen">
-        <div class="text-center py-10 ">
+    <div class="text-center py-10 flex justify-center items-center">
+        <div class="text-center py-20 ">
         <h1 class="text-4xl">What next you need To-DO</h1>
         <x-Alert />
         <form action="/todos/create" method="post" class="py-5">
