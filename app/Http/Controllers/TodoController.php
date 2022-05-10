@@ -17,7 +17,7 @@ class TodoController extends Controller
     {
         $mytodo = auth()->user()->todos()->orderBy('completed')->get(); //with has many relationship ordered by completed 0,1
         // $mytodo = Todo::orderby('completed')->get();            
-        return view ('todos.index', ['mytodos' => $mytodo]);
+        return view('todos.index', ['mytodos' => $mytodo]);
     }
 
     function create()
@@ -41,41 +41,43 @@ class TodoController extends Controller
         // Todo::create($req->all());
 
         //create eloquent relationship with todo and user table
+        
         $userId = auth()->id();
         $req['user_id'] = $userId;
         Todo::create($req->all());
         return redirect()->back()->with('message', "You created something");
     }
-//======================================================================================================================================
+    //======================================================================================================================================
 
     function edit(Todo $id)                         //type hinting model
     {
         return view('todos/edit', compact('id'));   //compact same as creating array and passing it to view
     }
-//======================================================================================================================================
+    //======================================================================================================================================
 
-    function update(Todo $id, TodoCreateRequest $req)//here we are passing both model and request(TodoCreateRequest) to keep code less
+    function update(Todo $id, TodoCreateRequest $req) //here we are passing both model and request(TodoCreateRequest) to keep code less
     {
-        $id->update(['title'=> $req->title]);
+        $id->update(['title' => $req->title], ['description' => $req->description]);
         return redirect()->back()->with('message', "You updated something");
     }
 
-//======================================================================================================================================
-    function complete(Todo $id){
+    //======================================================================================================================================
+    function complete(Todo $id)
+    {
         $id->update(['completed' => true]);
         return redirect()->back()->with('message', "Hooray!! Task Completed");
-      
     }
 
-    function incomplete(Todo $id){
+    function incomplete(Todo $id)
+    {
         $id->update(['completed' => false]);
         return redirect()->back()->with('message', "Task Marked as Incompleted");
     }
-    
-//======================================================================================================================================
-    function delete(Todo $id){
+
+    //======================================================================================================================================
+    function delete(Todo $id)
+    {
         $id->delete();
         return redirect()->back()->with('message', "Task Deleted");
     }
-
 }
