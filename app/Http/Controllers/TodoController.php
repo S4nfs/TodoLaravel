@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Todo;
+use App\Models\Step;
 use App\Models\User;
 use Faker\Provider\Lorem;
 use Nette\Utils\Validators;
@@ -42,9 +43,10 @@ class TodoController extends Controller
 
         //create eloquent relationship with todo and user table
         
-        $userId = auth()->id();
-        $req['user_id'] = $userId;
-        Todo::create($req->all());
+        $todo = auth()->user()->todos()->create($req->all());
+        foreach($req->steps as $step){
+            $todo->steps()->create(['name' => $step]);
+        }      
         return redirect()->back()->with('message', "You created something");
     }
     //======================================================================================================================================
@@ -57,7 +59,7 @@ class TodoController extends Controller
 
     function update(Todo $id, TodoCreateRequest $req) //here we are passing both model and request(TodoCreateRequest) to keep code less
     {
-        $id->update(['title' => $req->title], ['description' => $req->description]);
+        $id->update(['title' => $req->title, 'description' => $req->description]);
         return redirect()->back()->with('message', "You updated something");
     }
 
