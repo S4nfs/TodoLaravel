@@ -13,9 +13,9 @@
                     <textarea name="description" id="" class="p-2 rounded border" placeholder="Description"></textarea>
                 </div>
                 <div class="py-1">
-@livewire('todosteps')
-                    </div>
-                
+                    @livewire('todosteps')
+                </div>
+
                 <div class="py-1"><button
                         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-10 mt-5 rounded-full"
                         type="submit">Create</button>

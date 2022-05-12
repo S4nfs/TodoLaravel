@@ -10,7 +10,7 @@
         </div>
     </div>
     <div class="flex justify-center pt-20">
-        <div class="grid grid-cols-12 max-w-5xl gap-12">
+        <div class="grid grid-cols-12 max-w-8xl gap-12 px-8">
             @forelse ($mytodos as $items)
                 <!-- Card 1 -->
                 <div class="grid col-span-4 relative">
@@ -29,13 +29,31 @@
                     <a class="group shadow-lg hover:shadow-2xl duration-200 delay-75 w-full bg-white rounded-sm py-6 pr-6 pl-9"
                         href="{{ '/todos/' . $items->id . '/edit' }}">
 
-                        <!-- Title -->
-                        <span class="text-xs">
-                        </span>
 
-                        <!-- Description -->
+
+                        <!-- Title -->
                         <p class="text-sm font-semibold text-500 group-hover:text-gray-700 mt-2 leading-6 px-8">
                             {{ $items->title }} </p>
+
+                        <!-- Description -->
+                        <span
+                            class="text-xs text-500 group-hover:text-gray-700 mt-2 leading-6 px-8">{{ $items->description }}
+                        </span>
+
+                        @if ($items->steps->count() > 0)
+                            <div>
+                                @for ($i = 0; $i < $items->steps->count(); $i++)
+                                    <h5 class="text-xs text-500 group-hover:text-gray-700 mt-2 leading-6 px-8">
+                                       Step: {{ $i + 1 }}---------------->
+                                        
+                                    </h5>
+                                    <span
+                                        class="text-xs text-500 group-hover:text-gray-700 mt-2 leading-6 px-8">{{ $items->steps[$i]->name }}
+                                    </span>
+                                @endfor
+
+                            </div>
+                        @endif
                     </a>
 
                     <!-- Color -->
