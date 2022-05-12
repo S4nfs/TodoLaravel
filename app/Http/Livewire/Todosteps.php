@@ -9,11 +9,11 @@ class Todosteps extends Component
     public $steps = [];
 
     public function increment (){
-        $this->steps[] = count($this->steps)+1;
+        $this->steps[] = count($this->steps);
     }
     public function decrement($index){
-        dd($index);
-        $this->steps[] = count($this->steps)-1;
+        // dd($index);
+        unset($this->steps[$index]);
     }
     public function render()
     {
