@@ -17,7 +17,10 @@ class TodoController extends Controller
     function index()
     {
         $mytodo = auth()->user()->todos()->orderBy('completed')->get(); //with has many relationship ordered by completed 0,1
-        // $mytodo = Todo::orderby('completed')->get();            
+        // $mytodo = Todo::orderby('completed')->get();    
+        //return number of todos steps
+    //    return $todo->steps->count();
+            
         return view('todos.index', ['mytodos' => $mytodo]);
     }
 
@@ -79,6 +82,7 @@ class TodoController extends Controller
     //======================================================================================================================================
     function delete(Todo $id)
     {
+        $id->steps->each->delete();     //deleting steps which is attached to todo_id table
         $id->delete();
         return redirect()->back()->with('message', "Task Deleted");
     }
