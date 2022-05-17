@@ -47,9 +47,11 @@ class TodoController extends Controller
         //create eloquent relationship with todo and user table
         
         $todo = auth()->user()->todos()->create($req->all());
+        if($req->steps){
         foreach($req->steps as $step){
             $todo->steps()->create(['name' => $step]);
         }      
+    }
         return redirect()->back()->with('message', "You created something");
     }
     //======================================================================================================================================
@@ -63,6 +65,17 @@ class TodoController extends Controller
     function update(Todo $id, TodoCreateRequest $req) //here we are passing both model and request(TodoCreateRequest) to keep code less
     {
         $id->update(['title' => $req->title, 'description' => $req->description]);
+        if($req->stepsName){
+            foreach($req->stepsName as $key => $value ){  //associative array to grab stepsName index for stepsId to update
+                $id = $req->stepsId[$key];
+                if(!$id){
+                    $todo->steps()->create(['name' => $value]);
+                }else{
+                    $result = Step::find($id);
+                    $result->update(['name' => $value]);     
+                }
+            }
+        }
         return redirect()->back()->with('message', "You updated something");
     }
 
