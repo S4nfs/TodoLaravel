@@ -44,7 +44,7 @@
                             <div>
                                 @for ($i = 0; $i < $items->steps->count(); $i++)
                                     <h5 class="text-xs text-500 group-hover:text-gray-700 mt-2 leading-6 px-8">
-                                       Step: {{ $i + 1 }}---------------->
+                                       Step: {{ $i + 1 }} <i class="bi bi-circle"></i>
                                         
                                     </h5>
                                     <span
